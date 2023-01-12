@@ -16,13 +16,13 @@ public class UserServiceImp implements UserService{
         this.userDao = userDao;
     }
 
-    @Transactional
+
     @Override
     public List<User> getAllUsers() {
         return userDao.getAllUsers();
     }
 
-    @Transactional
+
     @Override
     public User getUserById(Long id) {
         return userDao.getUserById(id);
@@ -31,7 +31,11 @@ public class UserServiceImp implements UserService{
     @Transactional
     @Override
     public void addUser(User user) {
-        userDao.addUser(user);
+        if (user.getId() == null) {
+            userDao.addUser(user);
+        } else {
+            userDao.updateUser(user.getId(), user);
+        }
     }
 
     @Transactional

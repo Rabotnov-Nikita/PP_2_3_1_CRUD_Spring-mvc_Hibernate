@@ -20,17 +20,15 @@ public class UserDaoImp implements UserDao{
 
     @Override
     public User getUserById(Long id) {
-        User user = (User) em.createQuery("SELECT u FROM User u WHERE  u.id =?1").setParameter(1, id).getSingleResult();
+        User user = (User) em.createQuery("SELECT u FROM User u WHERE  u.id =?1")
+                .setParameter(1, id)
+                .getSingleResult();
         return user;
     }
 
     @Override
     public void addUser(User user) {
-        if (user.getId() == null) {
-            em.persist(user);
-        } else {
-            em.merge(user);
-        }
+        em.persist(user);
     }
 
     @Override
@@ -39,7 +37,7 @@ public class UserDaoImp implements UserDao{
         userToBeeUpdated.setFirstName(editedUser.getFirstName());
         userToBeeUpdated.setLastName(editedUser.getLastName());
         userToBeeUpdated.setEmail(editedUser.getEmail());
-        addUser(userToBeeUpdated);
+        em.merge(userToBeeUpdated);
     }
 
     @Override
